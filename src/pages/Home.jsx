@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, Hexagon, Box, Sparkles, ArrowLeft } from 'lucide-react';
+import { Camera, Hexagon, Box, Sparkles, ArrowLeft, Layers } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { base44 } from '@/api/base44Client';
+import { toast } from 'sonner';
 import CategoryCard from '@/components/forge/CategoryCard';
 import AgentForm from '@/components/forge/AgentForm';
 import AgentConfigDisplay from '@/components/forge/AgentConfigDisplay';
+import PublishedAgentCard from '@/components/forge/PublishedAgentCard';
 
 const CATEGORIES = [
   {
@@ -36,6 +38,31 @@ export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [generatedConfig, setGeneratedConfig] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [publishedAgents, setPublishedAgents] = useState([]);
+  const [showPublished, setShowPublished] = useState(false);
+
+  useEffect(() => {
+    loadPublishedAgents();
+  }, []);
+
+  const loadPublishedAgents = async () => {
+    try {
+      const agents = await base44.entities.AIAgent.list('-created_date');
+      setPublishedAgents(agents);
+    } catch (error) {
+      console.error('Failed to load agents:', error);
+    }
+  };
+
+  const handleDeleteAgent = async (id) => {
+    try {
+      await base44.entities.AIAgent.delete(id);
+      setPublishedAgents(prev => prev.filter(a => a.id !== id));
+      toast.success('Agent deleted');
+    } catch (error) {
+      toast.error('Failed to delete agent');
+    }
+  };
 
   const handleCategorySelect = (categoryId) => {
     setSelectedCategory(categoryId);
@@ -170,13 +197,15 @@ Create a comprehensive AI Behavior Prompt that:
         }
       });
 
-      setGeneratedConfig({
+      const newConfig = {
         name: result.agentName,
         description: result.description,
         capabilities: 'Image Generator',
         model: 'Best for Images',
-        behaviorPrompt: result.behaviorPrompt
-      });
+        behaviorPrompt: result.behaviorPrompt,
+        category: selectedCategory
+      };
+      setGeneratedConfig(newConfig);
       setStep('result');
     } catch (error) {
       console.error('Generation failed:', error);
@@ -189,6 +218,30 @@ Create a comprehensive AI Behavior Prompt that:
     setStep('select');
     setSelectedCategory(null);
     setGeneratedConfig(null);
+    loadPublishedAgents();
+  };
+
+  const handlePublish = async (config) => {
+    const slug = config.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+    
+    try {
+      await base44.entities.AIAgent.create({
+        name: config.name,
+        slug: slug,
+        category: config.category,
+        description: config.description,
+        behavior_prompt: config.behaviorPrompt,
+        is_published: true
+      });
+      
+      toast.success('Agent published successfully!');
+      loadPublishedAgents();
+      return slug;
+    } catch (error) {
+      console.error('Failed to publish:', error);
+      toast.error('Failed to publish agent');
+      return null;
+    }
   };
 
   return (
@@ -226,7 +279,41 @@ Create a comprehensive AI Behavior Prompt that:
           <p className="text-lg text-white/60 max-w-xl mx-auto">
             Create specialized AI agents for image generation. Define the perfect visual creator for your needs.
           </p>
+          
+          {publishedAgents.length > 0 && step === 'select' && (
+            <Button
+              onClick={() => setShowPublished(!showPublished)}
+              variant="outline"
+              className="mt-6 bg-white/5 border-white/20 text-white hover:bg-white/10"
+            >
+              <Layers className="w-4 h-4 mr-2" />
+              {showPublished ? 'Hide' : 'View'} Published Apps ({publishedAgents.length})
+            </Button>
+          )}
         </motion.header>
+        
+        {/* Published Agents Grid */}
+        <AnimatePresence>
+          {showPublished && step === 'select' && publishedAgents.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="max-w-4xl mx-auto mb-12"
+            >
+              <h2 className="text-xl font-semibold text-white mb-6">Your Published AI Apps</h2>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {publishedAgents.map((agent) => (
+                  <PublishedAgentCard 
+                    key={agent.id} 
+                    agent={agent} 
+                    onDelete={handleDeleteAgent}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Back button */}
         <AnimatePresence>
@@ -315,6 +402,7 @@ Create a comprehensive AI Behavior Prompt that:
               <AgentConfigDisplay
                 config={generatedConfig}
                 onReset={handleReset}
+                onPublish={handlePublish}
               />
             </motion.div>
           )}
