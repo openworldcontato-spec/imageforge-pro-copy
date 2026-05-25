@@ -1,39 +1,36 @@
-**Welcome to your Base44 project** 
+**ImageForge Pro — Projeto Base44**
 
-**About**
+**Sobre**
 
-View and Edit  your app on [Base44.com](http://Base44.com) 
+Este projeto contém tudo que você precisa para rodar e editar o app localmente.
 
-This project contains everything you need to run your app locally.
+**Editar o código no ambiente local**
 
-**Edit the code in your local development environment**
+Qualquer alteração enviada para o repositório também será refletida no Base44 Builder.
 
-Any change pushed to the repo will also be reflected in the Base44 Builder.
+**Pré-requisitos:**
 
-**Prerequisites:** 
-
-1. Clone the repository using the project's Git URL 
-2. Navigate to the project directory
-3. Install dependencies: `npm install`
-4. Create an `.env.local` file and set the right environment variables
+1. Clone o repositório usando a URL Git do projeto
+2. Entre na pasta do projeto
+3. Instale as dependências: `npm install`
+4. Crie um arquivo `.env.local` e configure as variáveis corretas
 
 ```
-VITE_BASE44_APP_ID=your_app_id
-VITE_BASE44_APP_BASE_URL=your_backend_url
+VITE_BASE44_APP_ID=seu_app_id
+VITE_BASE44_APP_BASE_URL=sua_url_backend
 
-e.g.
+exemplo:
 VITE_BASE44_APP_ID=cbef744a8545c389ef439ea6
-VITE_BASE44_APP_BASE_URL=https://my-to-do-list-81bfaad7.base44.app
+VITE_BASE44_APP_BASE_URL=https://meu-app.base44.app
 ```
 
-Run the app: `npm run dev`
+Rodar o app: `npm run dev`
 
-**Publish your changes**
+**Publicar alterações**
 
-Open [Base44.com](http://Base44.com) and click on Publish.
+Abra o Base44 e clique em Publicar (Publish).
 
-**Docs & Support**
+**Documentação e suporte**
 
-Documentation: [https://docs.base44.com/Integrations/Using-GitHub](https://docs.base44.com/Integrations/Using-GitHub)
-
-Support: [https://app.base44.com/support](https://app.base44.com/support)
+Documentação: https://docs.base44.com/Integrations/Using-GitHub
+Suporte: https://app.base44.com/support

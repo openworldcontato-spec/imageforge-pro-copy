@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Copy, Check, Sparkles, Image, Cpu, Wand2, Loader2, Download, Rocket, ExternalLink } from 'lucide-react';
+import { Copy, Check, Sparkles, Image, Cpu, Loader2, Rocket, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
-import { base44 } from '@/api/base44Client';
 import { createPageUrl } from '@/utils';
 
 export default function AgentConfigDisplay({ config, onReset, onPublish }) {
@@ -15,24 +13,24 @@ export default function AgentConfigDisplay({ config, onReset, onPublish }) {
   const copyToClipboard = (text, field) => {
     navigator.clipboard.writeText(text);
     setCopiedField(field);
-    toast.success('Copied to clipboard');
+    toast.success('Copiado para a área de transferência');
     setTimeout(() => setCopiedField(null), 2000);
   };
 
   const copyAll = () => {
-    const fullConfig = `Agent Name: ${config.name}
+    const fullConfig = `Nome do Agente: ${config.name}
 
-Description: ${config.description}
+Descrição: ${config.description}
 
-Capabilities: ${config.capabilities}
+Capacidades: ${config.capabilities}
 
-Model: ${config.model}
+Modelo: ${config.model}
 
-AI Behavior Prompt:
+Prompt de Comportamento da IA:
 ${config.behaviorPrompt}`;
     
     navigator.clipboard.writeText(fullConfig);
-    toast.success('Full configuration copied!');
+    toast.success('Configuração completa copiada!');
   };
 
   const handlePublish = async () => {
@@ -49,8 +47,6 @@ ${config.behaviorPrompt}`;
 
   const appUrl = publishedSlug ? createPageUrl('AgentApp') + `?slug=${publishedSlug}` : null;
 
-
-
   const ConfigSection = ({ label, value, field, large = false }) => (
     <div className="group">
       <div className="flex items-center justify-between mb-2">
@@ -58,6 +54,7 @@ ${config.behaviorPrompt}`;
         <button
           onClick={() => copyToClipboard(value, field)}
           className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-white/10 rounded"
+          aria-label={`Copiar ${label}`}
         >
           {copiedField === field ? (
             <Check className="w-3.5 h-3.5 text-green-400" />
@@ -78,7 +75,7 @@ ${config.behaviorPrompt}`;
       animate={{ opacity: 1, y: 0 }}
       className="w-full max-w-3xl mx-auto"
     >
-      {/* Header */}
+      {/* Cabeçalho */}
       <div className="text-center mb-8">
         <motion.div
           initial={{ scale: 0 }}
@@ -88,14 +85,14 @@ ${config.behaviorPrompt}`;
         >
           <Sparkles className="w-8 h-8 text-white" />
         </motion.div>
-        <h2 className="text-2xl font-bold text-white mb-2">Agent Created Successfully</h2>
-        <p className="text-white/60">Your image-generation AI agent is ready</p>
+        <h2 className="text-2xl font-bold text-white mb-2">Agente Criado com Sucesso</h2>
+        <p className="text-white/60">Seu agente de IA para geração de imagens está pronto</p>
       </div>
 
-      {/* Config Card */}
+      {/* Card de configuração */}
       <div className="bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 p-8 space-y-6">
-        <ConfigSection label="Agent Name" value={config.name} field="name" />
-        <ConfigSection label="Description" value={config.description} field="description" />
+        <ConfigSection label="Nome do Agente" value={config.name} field="name" />
+        <ConfigSection label="Descrição" value={config.description} field="description" />
         
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-black/30 rounded-xl p-4 border border-white/5">
@@ -104,7 +101,7 @@ ${config.behaviorPrompt}`;
                 <Image className="w-5 h-5 text-violet-400" />
               </div>
               <div>
-                <p className="text-xs text-white/50 uppercase tracking-wider">Capabilities</p>
+                <p className="text-xs text-white/50 uppercase tracking-wider">Capacidades</p>
                 <p className="text-white font-medium">{config.capabilities}</p>
               </div>
             </div>
@@ -116,7 +113,7 @@ ${config.behaviorPrompt}`;
                 <Cpu className="w-5 h-5 text-fuchsia-400" />
               </div>
               <div>
-                <p className="text-xs text-white/50 uppercase tracking-wider">Model</p>
+                <p className="text-xs text-white/50 uppercase tracking-wider">Modelo</p>
                 <p className="text-white font-medium">{config.model}</p>
               </div>
             </div>
@@ -124,33 +121,33 @@ ${config.behaviorPrompt}`;
         </div>
 
         <ConfigSection 
-          label="AI Behavior Prompt" 
+          label="Prompt de Comportamento da IA" 
           value={config.behaviorPrompt} 
           field="prompt" 
           large 
         />
 
-        {/* Actions */}
-        <div className="flex gap-4 pt-4">
+        {/* Ações */}
+        <div className="flex flex-col sm:flex-row gap-4 pt-4">
           <Button
             onClick={copyAll}
             variant="outline"
             className="h-12 px-6 bg-white/5 border-white/10 hover:bg-white/10 text-white rounded-xl"
           >
             <Copy className="w-4 h-4 mr-2" />
-            Copy Config
+            Copiar Configuração
           </Button>
           <Button
             onClick={onReset}
             variant="outline"
             className="h-12 px-6 bg-white/5 border-white/10 hover:bg-white/10 text-white rounded-xl"
           >
-            Create Another
+            Criar Outro
           </Button>
         </div>
       </div>
 
-      {/* Publish Section */}
+      {/* Publicação */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -162,8 +159,8 @@ ${config.behaviorPrompt}`;
             <Rocket className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-white">Publish as Standalone App</h3>
-            <p className="text-sm text-white/50">Create an independent mini-app with its own URL</p>
+            <h3 className="text-lg font-semibold text-white">Publicar como App Independente</h3>
+            <p className="text-sm text-white/50">Crie um miniapp independente com uma URL própria</p>
           </div>
         </div>
 
@@ -176,12 +173,12 @@ ${config.behaviorPrompt}`;
             {isPublishing ? (
               <>
                 <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                Publishing...
+                Publicando...
               </>
             ) : (
               <>
                 <Rocket className="w-5 h-5 mr-2" />
-                Publish This App
+                Publicar Este App
               </>
             )}
           </Button>
@@ -189,7 +186,7 @@ ${config.behaviorPrompt}`;
           <div className="space-y-4">
             <div className="flex items-center gap-2 p-4 bg-green-500/20 rounded-xl border border-green-500/30">
               <Check className="w-5 h-5 text-green-400" />
-              <span className="text-green-300 font-medium">App Published Successfully!</span>
+              <span className="text-green-300 font-medium">App publicado com sucesso!</span>
             </div>
             <Button
               asChild
@@ -197,14 +194,12 @@ ${config.behaviorPrompt}`;
             >
               <a href={appUrl} target="_blank" rel="noopener noreferrer">
                 <ExternalLink className="w-5 h-5 mr-2" />
-                Open Your App
+                Abrir seu App
               </a>
             </Button>
           </div>
         )}
       </motion.div>
-
-
     </motion.div>
   );
 }

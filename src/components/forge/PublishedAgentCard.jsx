@@ -19,9 +19,9 @@ export default function PublishedAgentCard({ agent, onDelete }) {
   };
 
   const categoryNames = {
-    realistic: 'Realistic Image',
-    logo: 'Logo & Branding',
-    product: 'Product Render'
+    realistic: 'Imagem Realista',
+    logo: 'Logo e Branding',
+    product: 'Render de Produto'
   };
 
   const Icon = categoryIcons[agent.category] || Camera;
@@ -40,7 +40,7 @@ export default function PublishedAgentCard({ agent, onDelete }) {
           <Icon className="w-6 h-6 text-white" />
         </div>
         <Badge variant="secondary" className="bg-green-500/20 text-green-400 border-green-500/30">
-          Published
+          Publicado
         </Badge>
       </div>
 
@@ -60,13 +60,14 @@ export default function PublishedAgentCard({ agent, onDelete }) {
         >
           <a href={appUrl} target="_blank" rel="noopener noreferrer">
             <ExternalLink className="w-4 h-4 mr-2" />
-            Open App
+            Abrir App
           </a>
         </Button>
         <Button
           onClick={() => onDelete(agent.id)}
           variant="outline"
           className="h-10 px-3 bg-white/5 border-white/10 hover:bg-red-500/20 hover:border-red-500/30 text-white/60 hover:text-red-400 rounded-xl"
+          aria-label="Excluir app publicado"
         >
           <Trash2 className="w-4 h-4" />
         </Button>

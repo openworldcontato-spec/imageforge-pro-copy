@@ -29,7 +29,7 @@ const SidebarContext = React.createContext(null)
 function useSidebar() {
   const context = React.useContext(SidebarContext)
   if (!context) {
-    throw new Error("useSidebar must be used within a SidebarProvider.")
+    throw new Error("useSidebar deve ser usado dentro de um SidebarProvider.")
   }
 
   return context
@@ -237,7 +237,7 @@ const SidebarTrigger = React.forwardRef(({ className, onClick, asChild = false, 
       ) : (
         <>
           <PanelLeft />
-          <span className="sr-only">Toggle Sidebar</span>
+          <span className="sr-only">Alternar menu lateral</span>
         </>
       )}
     </Button>)
@@ -252,7 +252,7 @@ const SidebarRail = React.forwardRef(({ className, ...props }, ref) => {
     (<button
       ref={ref}
       data-sidebar="rail"
-      aria-label="Toggle Sidebar"
+      aria-label="Alternar menu lateral"
       tabIndex={-1}
       onClick={toggleSidebar}
       title="Toggle Sidebar"

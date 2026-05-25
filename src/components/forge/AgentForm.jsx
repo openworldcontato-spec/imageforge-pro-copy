@@ -9,19 +9,19 @@ export default function AgentForm({ category, onGenerate, isLoading }) {
 
   const categoryInfo = {
     realistic: {
-      title: 'Realistic Image AI',
-      placeholder: 'Describe what your AI should specialize in...\n\nExample: "A portrait photographer AI that creates stunning headshots with natural lighting, perfect for professional LinkedIn photos and actor portfolios."',
-      hint: 'Think about subjects, lighting styles, moods, and use cases'
+      title: 'IA de Imagens Realistas',
+      placeholder: 'Descreva no que sua IA deve ser especializada...\n\nExemplo: "Uma IA fotógrafa de retratos que cria headshots profissionais com iluminação natural, perfeita para LinkedIn, portfólio de atores e fotos corporativas."',
+      hint: 'Pense em assuntos, estilos de iluminação, clima visual e casos de uso'
     },
     logo: {
-      title: 'Logo & Branding AI',
-      placeholder: 'Describe what your AI should specialize in...\n\nExample: "A tech startup logo creator that generates minimalist, geometric logos with bold colors, perfect for SaaS companies and mobile apps."',
-      hint: 'Consider industries, styles, color preferences, and brand personalities'
+      title: 'IA para Logo e Branding',
+      placeholder: 'Descreva no que sua IA deve ser especializada...\n\nExemplo: "Uma IA criadora de logos para startups de tecnologia, com marcas minimalistas, geométricas e cores fortes, perfeita para SaaS e apps mobile."',
+      hint: 'Considere nichos, estilos, preferências de cor e personalidade da marca'
     },
     product: {
-      title: 'Product Render AI',
-      placeholder: 'Describe what your AI should specialize in...\n\nExample: "A luxury watch photographer AI that creates studio-quality product shots with dramatic lighting and reflections, ideal for e-commerce and catalogs."',
-      hint: 'Think about product types, backgrounds, lighting, and commercial contexts'
+      title: 'IA para Render de Produto',
+      placeholder: 'Descreva no que sua IA deve ser especializada...\n\nExemplo: "Uma IA fotógrafa de relógios de luxo que cria imagens de produto com qualidade de estúdio, luz dramática e reflexos, ideal para e-commerce e catálogos."',
+      hint: 'Pense em tipos de produto, fundos, iluminação e contexto comercial'
     }
   };
 
@@ -49,7 +49,7 @@ export default function AgentForm({ category, onGenerate, isLoading }) {
           <Sparkles className="w-4 h-4 text-violet-400" />
           <span className="text-sm font-medium text-violet-300">{info.title}</span>
         </motion.div>
-        <h2 className="text-2xl font-bold text-white mb-2">Define Your Agent</h2>
+        <h2 className="text-2xl font-bold text-white mb-2">Defina seu Agente</h2>
         <p className="text-white/60">{info.hint}</p>
       </div>
 
@@ -71,11 +71,11 @@ export default function AgentForm({ category, onGenerate, isLoading }) {
               {isLoading ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Generating...
+                  Gerando...
                 </>
               ) : (
                 <>
-                  Generate Agent
+                  Gerar Agente
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </>
               )}
